@@ -4,56 +4,47 @@ class Timer extends React.Component {
             super(props);
             this.state = {
                   running: false,
-                  previouseTime: 0,
                   loadTime: 0,
+                  initTime: 0,
             }
-      }
-
-      componentDidMount() {
-            this.interval = setInterval(this.record,1000);
-      }
-
-      componentWillUnmount() {
-            clearInterval(this.interval);
       }
 
       startTimer() {
             this.setState({
                   running: true,
-                  initTime: Date.now(),
             });
+            this.interval = setInterval(() => this.record(), 1000);
       }
 
       stopTimer() {
             this.setState({
                   running: false,
             });
+
+            clearInterval(this.interval);
       }
 
       resetTimer() {
             this.setState({
                   loadTime: 0,
-                  initTime: Date.now(),
+                  initTime: 0,
             });
       }
 
       record() {
-            if (this.state.running) {
-                  let now = Date.now();
-                  this.setState({
-                        loadTime: this.state.loadTime + (now - this.state.initTime),
-                        initTime: Date.now(),
-                  });
-            }
+
+            this.setState({
+                  loadTime: this.state.loadTime + 1,
+            });
+
       }
 
       render() {
-            let hours = Math.floor(this.state.loadTime / 1000);
             return (
                   <div className="stopwatch" >
                         <h2>STOPWATCH</h2>
-                        <div className="stopwatch-time"> {hours} </div>
-                        {this.state.running ?<button onClick={() => this.stopTimer()}>Stop</button>:<button onClick={() => this.startTimer()}>Start</button>}
+                        <div className="stopwatch-time"> {this.state.loadTime} </div>
+                        {this.state.running ? <button onClick={() => this.stopTimer()}>Stop</button> : <button onClick={() => this.startTimer()}>Start</button>}
                         <button onClick={() => this.resetTimer()}>Reset</button>
                   </div>
             )
