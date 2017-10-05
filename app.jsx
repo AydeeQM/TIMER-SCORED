@@ -25,6 +25,7 @@ class Timer extends React.Component {
       }
 
       resetTimer() {
+            clearInterval(this.interval);
             this.setState({
                   loadTime: 0,
                   initTime: 0,
